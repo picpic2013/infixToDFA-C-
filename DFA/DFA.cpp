@@ -172,6 +172,7 @@ STATUS DFA::DFAMinimise(DFA& input)
 	bool hasChanged = true;
 	//标记所有状态不一致的pair
 	while (hasChanged) {
+		hasChanged = false;
 		for (int i = 0; i < nodeNum; i++) {
 			for (int j = 0; j < nodeNum; j++) {
 				if (pair[i][j] == 1) continue;
@@ -184,20 +185,16 @@ STATUS DFA::DFAMinimise(DFA& input)
 					}
 					for (auto it = toEdge2.begin(); it != toEdge2.end(); it++) {
 						if (condiTo.find((*it).getCondition()) == condiTo.end()) {
-							pair[i][j] = 1;
+							pair[i][j] = 1;  hasChanged = true;
 						}
 						else if (pair[NodesIndexTopairIndex[condiTo[(*it).getCondition()]]][NodesIndexTopairIndex[(*it).getToId()]] == 1) {
-							pair[i][j] = 1;
-						}
-						else {
-							hasChanged = false;
+							pair[i][j] = 1; hasChanged = true;
 						}
 					}
 				}
 			}
 		}
 	}
-
 
 	for (int i = 0; i < nodeNum; i++) {
 		for (int j = 0; j < nodeNum; j++) {

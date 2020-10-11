@@ -5,7 +5,7 @@ template <typename NodeDataType, typename EdgeDataType>
 class MyGraphWithStartEnd : public MyGraph<NodeDataType, EdgeDataType> {
 public:
 	MyGraphWithStartEnd(bool = true);
-	MyGraphWithStartEnd(char);
+	MyGraphWithStartEnd(EdgeDataType);
 	MyGraphWithStartEnd(const MyGraphWithStartEnd<NodeDataType, EdgeDataType>&);
 	~MyGraphWithStartEnd();
 
@@ -155,7 +155,7 @@ MyGraphWithStartEnd<NodeDataType, EdgeDataType>::MyGraphWithStartEnd(const MyGra
 }
 
 template <typename NodeDataType, typename EdgeDataType>
-MyGraphWithStartEnd<NodeDataType, EdgeDataType>::MyGraphWithStartEnd(char singleChar) {
+MyGraphWithStartEnd<NodeDataType, EdgeDataType>::MyGraphWithStartEnd(EdgeDataType singleChar) {
 	this->addNode(0);
 	this->addNode(1);
 
