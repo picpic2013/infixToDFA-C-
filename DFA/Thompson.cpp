@@ -92,18 +92,21 @@ cell express_2_DFA(cell nfa)
 		{
 			string u = closure(move(rawDFA[m], Character_Set[i], NFA), NFA);//求当前DFA数组元素，经过当前字符得到的所有节点的闭包
 			sort(u.begin(), u.end());
+			if (u != "")
+			{
+				state StartState, EndState;
+				StartState.StateName = rawDFA[m];
+				EndState.StateName = u;
 
-			state StartState, EndState;
-			StartState.StateName = rawDFA[m];
-			EndState.StateName = u;
+				edge line;
+				line.StartState = StartState;
+				line.EndState = EndState;
+				line.TransSymbol = Character_Set[i];
 
-			edge line;
-			line.StartState = StartState;
-			line.EndState = EndState;
-			line.TransSymbol = Character_Set[i];
-
-			DFA.EdgeSet[DFA_Count++] = line;
-			DFA.EdgeCount++;
+				DFA.EdgeSet[DFA_Count++] = line;
+				DFA.EdgeCount++;
+				
+			}
 			make_EndState(DFA, rawDFA, nfa);
 
 			if (!checkINrawDFA(rawDFA, u))//如果当前集合没有存入DFA集合数组
@@ -195,10 +198,6 @@ string move(string t, char a, vector<edge> NFA)//参数是集合、经过的字符、NFA
 				}
 			}
 		}
-	}
-	if (temp == "")
-	{
-		temp = t;
 	}
 	return temp;
 }

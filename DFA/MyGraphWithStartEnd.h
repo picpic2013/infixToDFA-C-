@@ -115,7 +115,7 @@ public:
 	}
 	
 	friend std::ostream& operator << (std::ostream& out, MyGraphWithStartEnd<NodeDataType, EdgeDataType>& graph) {
-		out << "Graph [ start: " << graph.startId << " | end: " << graph.endId << " ]: " << std::endl;
+		out << "Graph: " << std::endl;
 		for (auto it = graph.index.begin(); it != graph.index.end(); it++) {
 			Node<NodeDataType, EdgeDataType>& tempNode = graph.nodes[it->second];
 			out << "\t" << tempNode << std::endl;

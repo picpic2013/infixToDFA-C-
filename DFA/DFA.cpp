@@ -44,14 +44,24 @@ DFA::DFA(cell& c) : MyGraphWithStartEnd<DFANodeData, char>(false)
 	while (in >> temp) {
 		this->setTerminal(c2n[temp]);
 	}
+
+	in = istringstream(c.StartState.StateName);
+	while (in >> temp) {
+		this->setStart(c2n[temp]);
+	}
 }
 
 DFA::~DFA()
 {
 }
 
-STATUS  DFA::setTerminal(int nodeid) {
+STATUS DFA::setTerminal(int nodeid) {
 	(this->nodes[this->index[nodeid]]).getData().setTerminal(true);
+	return STATUS::OK;
+}
+
+STATUS DFA::setStart(int nodeId) {
+	(this->nodes[this->index[nodeId]]).getData().setStart(true);
 	return STATUS::OK;
 }
 
@@ -159,27 +169,35 @@ STATUS DFA::DFAMinimise(DFA& input)
 		}
 	}
 	
-	for (int i = 0; i < nodeNum; i++) {
-		for (int j = 0; j < nodeNum; j++) {
-			if (pair[i][j] == 1) continue;
-			if (i < j) {
-				std::vector<Edge<char> > toEdge1 = input.nodes[input.index[pairIndexToNodesIndex[i]]].getToEdges();
-				std::vector<Edge<char> > toEdge2 = input.nodes[input.index[pairIndexToNodesIndex[j]]].getToEdges();
-				std::map<int, int> condiTo;
-				for (auto it = toEdge1.begin(); it != toEdge1.end(); it++) {
-					condiTo[(*it).getCondition()] = (*it).getToId();
-				}
-				for (auto it = toEdge2.begin(); it != toEdge2.end(); it++) {
-					if (condiTo.find((*it).getCondition()) == condiTo.end()) {
-						pair[i][j] = 1;
+	bool hasChanged = true;
+	//标记所有状态不一致的pair
+	while (hasChanged) {
+		for (int i = 0; i < nodeNum; i++) {
+			for (int j = 0; j < nodeNum; j++) {
+				if (pair[i][j] == 1) continue;
+				if (i < j) {
+					std::vector<Edge<char> > toEdge1 = input.nodes[input.index[pairIndexToNodesIndex[i]]].getToEdges();
+					std::vector<Edge<char> > toEdge2 = input.nodes[input.index[pairIndexToNodesIndex[j]]].getToEdges();
+					std::map<int, int> condiTo;
+					for (auto it = toEdge1.begin(); it != toEdge1.end(); it++) {
+						condiTo[(*it).getCondition()] = (*it).getToId();
 					}
-					else if (pair[NodesIndexTopairIndex[condiTo[(*it).getCondition()]]][NodesIndexTopairIndex[(*it).getToId()]] == 1) {
-						pair[i][j] = 1;
+					for (auto it = toEdge2.begin(); it != toEdge2.end(); it++) {
+						if (condiTo.find((*it).getCondition()) == condiTo.end()) {
+							pair[i][j] = 1;
+						}
+						else if (pair[NodesIndexTopairIndex[condiTo[(*it).getCondition()]]][NodesIndexTopairIndex[(*it).getToId()]] == 1) {
+							pair[i][j] = 1;
+						}
+						else {
+							hasChanged = false;
+						}
 					}
 				}
 			}
 		}
 	}
+
 
 	for (int i = 0; i < nodeNum; i++) {
 		for (int j = 0; j < nodeNum; j++) {
@@ -192,14 +210,14 @@ STATUS DFA::DFAMinimise(DFA& input)
 				for (auto it = fromEdge.begin(); it != fromEdge.end(); it++) {
 					char condition = (*it).getCondition();
 					int fromId = (*it).getFromId();
-					Edge edge(fromId, id2, condition);
+					Edge<char> edge(fromId, id2, condition);
 					if (input.nodes[input.index[id2]].isExistEdge(edge) == STATUS::EDGE_NOT_EXISTED)
 						input.addEdge(fromId, id2, condition, false);
 				}
 				for (auto it = toEdge.begin(); it != toEdge.end(); it++) {
 					char condition = (*it).getCondition();
 					int toId = (*it).getToId();
-					Edge edge(id2, toId, condition);
+					Edge<char> edge(id2, toId, condition);
 					if (input.nodes[input.index[id2]].isExistEdge(edge) == STATUS::EDGE_NOT_EXISTED)
 						input.addEdge(id2, toId, condition, false);
 				}

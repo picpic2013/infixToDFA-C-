@@ -14,12 +14,11 @@ int main() {
     while (true) {
         string input = "(ab|c)*dde";
         cin >> input;
+
+        // mid to post
         vector<char> result;
         if (PrefixToPostfix::preToPost(input, result) == STATUS::ERROR) continue;
         
-        /*NFA res = PostfixToNFA::postfix2NFA(result);
-        cout << res << endl;*/
-
         // data convertion
         string postfix;
         postfix.assign(result.begin(), result.end());
@@ -29,27 +28,25 @@ int main() {
             }
         }
 
-        // cout << postfix << endl;
-
         cell NFA_Cell, DFA_Cell;
 
         //表达式转NFA
         NFA_Cell = express_2_NFA(postfix);
 
         //显示
-        Display_NFA(NFA_Cell);
+        // Display_NFA(NFA_Cell);
         NFA tempNFA = NFA(NFA_Cell);
-        cout << tempNFA << endl;
+        cout << "NFA: " << endl << tempNFA << endl;
 
 
         DFA_Cell = express_2_DFA(NFA_Cell);
-        Display_DFA(DFA_Cell);
+        // Display_DFA(DFA_Cell);
         DFA tempDFA = DFA(DFA_Cell);
-        cout << tempDFA << endl;
+        cout << "DFA: " << endl << tempDFA << endl;
         
 
         tempDFA.DFAMinimise();
-        cout << tempDFA << endl;
+        cout << "min-DFA: " << endl << tempDFA << endl;
     }
     return 0;
 }

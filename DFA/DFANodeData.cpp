@@ -2,34 +2,39 @@
 
 DFANodeData::DFANodeData() {
 	this->isTermin = false;
-}
-
-DFANodeData::DFANodeData(std::set<char> statusSubset) {
-	this->statusSubset = statusSubset;
+	this->isStart = false;
 }
 
 DFANodeData::DFANodeData(const DFANodeData& data) {
 	this->statusSubset = data.statusSubset;
+	this->isStart = data.isStart;
+	this->isTermin = data.isTermin;
 }
 
-bool DFANodeData::getTerminal() {
+bool DFANodeData::getTerminal() const {
 	return this->isTermin;
 }
+
+bool DFANodeData::getStart() const {
+	return this->isStart;
+}
+
 STATUS DFANodeData::setTerminal(bool input) {
 	this->isTermin = input;
 	return STATUS::OK;
 }
 
+STATUS DFANodeData::setStart(bool input) {
+	this->isStart = input;
+	return STATUS::OK;
+}
+
 std::ostream& operator << (std::ostream& out, DFANodeData& data) {
-	out << "status subset: { ";
-	std::set<char>::iterator it = data.statusSubset.begin();
-	if (it != data.statusSubset.end()) {
-		out << *it;
-		it++;
-		for (; it != data.statusSubset.end(); it++) {
-			out << ", " << *it;
-		}
+	if (data.isStart) {
+		out << "( Start Node ) ";
 	}
-	out << " }";
+	if (data.isTermin) {
+		out << "( Terminal Node ) ";
+	}
 	return out;
 }
