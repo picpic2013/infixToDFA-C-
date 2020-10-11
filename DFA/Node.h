@@ -2,29 +2,29 @@
 #include <iostream>
 #include "Edge.h"
 
-template <typename DataType>
+template <typename NodeDataType, typename EdgeDataType>
 class Node {
 public:
-	Node(int id, DataType = DataType());
+	Node(int id, NodeDataType = NodeDataType());
 	~Node();
 	int getId() const;
-	DataType getData() const;
-	std::vector<Edge>& getFromEdges();
-	std::vector<Edge>& getToEdges();
-	STATUS addFromEdge(Edge);
-	STATUS addToEdge(Edge);
+	NodeDataType& getData();
+	std::vector<Edge<EdgeDataType> >& getFromEdges();
+	std::vector<Edge<EdgeDataType> >& getToEdges();
+	STATUS addFromEdge(const Edge<EdgeDataType>&);
+	STATUS addToEdge(const Edge<EdgeDataType>&);
 	STATUS delFromEdge(int);
 	STATUS delToEdge(int);
-	friend std::ostream& operator << (std::ostream& out, Node<DataType>& node) {
+	friend std::ostream& operator << (std::ostream& out, Node<NodeDataType, EdgeDataType>& node) {
 		out << "Node [ " << node.id << " ]: " << node.data;
 		return out;
 	}
 
 private:
 	int id;
-	std::vector<Edge> fromEdges;
-	std::vector<Edge> toEdges;
-	DataType data;
+	std::vector<Edge<EdgeDataType> > fromEdges;
+	std::vector<Edge<EdgeDataType> > toEdges;
+	NodeDataType data;
 };
 
 #include "Node.cpp"

@@ -1,46 +1,46 @@
 #include "Node.h"
 
-template <typename DataType>
-Node<DataType>::Node(int id, DataType data) {
+template <typename NodeDataType, typename EdgeDataType>
+Node<NodeDataType, EdgeDataType>::Node(int id, NodeDataType data) {
 	this->id = id;
 	this->data = data;
 }
 
-template <typename DataType>
-Node<DataType>::~Node() {
+template <typename NodeDataType, typename EdgeDataType>
+Node<NodeDataType, EdgeDataType>::~Node() {
 }
 
-template <typename DataType>
-int Node<DataType>::getId() const{
+template <typename NodeDataType, typename EdgeDataType>
+int Node<NodeDataType, EdgeDataType>::getId() const{
 	return this->id;
 }
 
-template <typename DataType>
-std::vector<Edge>& Node<DataType>::getFromEdges() {
+template <typename NodeDataType, typename EdgeDataType>
+std::vector<Edge<EdgeDataType> >& Node<NodeDataType, EdgeDataType>::getFromEdges() {
 	return this->fromEdges;
 }
 
-template <typename DataType>
-std::vector<Edge>& Node<DataType>::getToEdges() {
+template <typename NodeDataType, typename EdgeDataType>
+std::vector<Edge<EdgeDataType> >& Node<NodeDataType, EdgeDataType>::getToEdges() {
 	return this->toEdges;
 }
 
-template <typename DataType>
-STATUS Node<DataType>::addFromEdge(Edge edge) {
+template <typename NodeDataType, typename EdgeDataType>
+STATUS Node<NodeDataType, EdgeDataType>::addFromEdge(const Edge<EdgeDataType> &edge) {
 	this->fromEdges.push_back(edge);
 	return STATUS::OK;
 }
 
-template <typename DataType>
-STATUS Node<DataType>::addToEdge(Edge edge) {
+template <typename NodeDataType, typename EdgeDataType>
+STATUS Node<NodeDataType, EdgeDataType>::addToEdge(const Edge<EdgeDataType> &edge) {
 	this->toEdges.push_back(edge);
 	return STATUS::OK;
 }
 
-template <typename DataType>
-STATUS Node<DataType>::delFromEdge(int fromNodeId) {
-	std::vector<Edge> tempVector;
-	for (std::vector<Edge>::iterator it = this->fromEdges.begin(); it != this->fromEdges.end(); it++) {
+template <typename NodeDataType, typename EdgeDataType>
+STATUS Node<NodeDataType, EdgeDataType>::delFromEdge(int fromNodeId) {
+	std::vector<Edge<EdgeDataType> > tempVector;
+	for (auto it = this->fromEdges.begin(); it != this->fromEdges.end(); it++) {
 		if (it->getFromId() != fromNodeId) {
 			tempVector.push_back(*it);
 		}
@@ -49,10 +49,10 @@ STATUS Node<DataType>::delFromEdge(int fromNodeId) {
 	return STATUS::OK;
 }
 
-template <typename DataType>
-STATUS Node<DataType>::delToEdge(int toNodeId) {
-	std::vector<Edge> tempVector;
-	for (std::vector<Edge>::iterator it = this->toEdges.begin(); it != this->toEdges.end(); it++) {
+template <typename NodeDataType, typename EdgeDataType>
+STATUS Node<NodeDataType, EdgeDataType>::delToEdge(int toNodeId) {
+	std::vector<Edge<EdgeDataType> > tempVector;
+	for (auto it = this->toEdges.begin(); it != this->toEdges.end(); it++) {
 		if (it->getToId() != toNodeId) {
 			tempVector.push_back(*it);
 		}
@@ -61,7 +61,7 @@ STATUS Node<DataType>::delToEdge(int toNodeId) {
 	return STATUS::OK;
 }
 
-template <typename DataType>
-DataType Node<DataType>::getData() const {
+template <typename NodeDataType, typename EdgeDataType>
+NodeDataType& Node<NodeDataType, EdgeDataType>::getData() {
 	return this->data;
 }

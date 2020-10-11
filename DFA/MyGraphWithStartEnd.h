@@ -4,8 +4,8 @@
 #include "DFANodeData.h"
 #include <xkeycheck.h>
 
-template <typename DataType>
-class MyGraphWithStartEnd : public MyGraph<DataType> {
+template <typename NodeDataType, typename EdgeDataType>
+class MyGraphWithStartEnd : public MyGraph<NodeDataType, EdgeDataType> {
 public:
 	MyGraphWithStartEnd();
 	MyGraphWithStartEnd(char);
@@ -27,8 +27,8 @@ public:
 		return nodeId == this->endId;
 	}
 	
-	friend MyGraphWithStartEnd<DataType> operator + (MyGraphWithStartEnd<DataType> a, MyGraphWithStartEnd<DataType> b) {
-		MyGraphWithStartEnd<DataType> res;
+	friend MyGraphWithStartEnd<NodeDataType, EdgeDataType> operator + (MyGraphWithStartEnd<NodeDataType, EdgeDataType> a, MyGraphWithStartEnd<NodeDataType, EdgeDataType> b) {
+		MyGraphWithStartEnd<NodeDataType, EdgeDataType> res;
 		std::map<int, int> a2new, b2new;
 		for (auto it = a.nodes.begin(); it != a.nodes.end(); it++) {
 			int oldId = it->getId();
@@ -60,8 +60,8 @@ public:
 		return res;
 	}
 
-	friend MyGraphWithStartEnd<DataType> operator | (MyGraphWithStartEnd<DataType> a, MyGraphWithStartEnd<DataType> b) {
-		MyGraphWithStartEnd<DataType> res;
+	friend MyGraphWithStartEnd<NodeDataType, EdgeDataType> operator | (MyGraphWithStartEnd<NodeDataType, EdgeDataType> a, MyGraphWithStartEnd<NodeDataType, EdgeDataType> b) {
+		MyGraphWithStartEnd<NodeDataType, EdgeDataType> res;
 		std::map<int, int> a2new, b2new;
 		for (auto it = a.nodes.begin(); it != a.nodes.end(); it++) {
 			int oldId = it->getId();
@@ -94,8 +94,8 @@ public:
 		return res;
 	}
 
-	MyGraphWithStartEnd<DataType> operator * () {
-		MyGraphWithStartEnd<DataType> res;
+	MyGraphWithStartEnd<NodeDataType, EdgeDataType> operator * () {
+		MyGraphWithStartEnd<NodeDataType, EdgeDataType> res;
 		std::map<int, int> a2new;
 		for (auto it = this->nodes.begin(); it != this->nodes.end(); it++) {
 			int oldId = it->getId();
@@ -116,10 +116,10 @@ public:
 		return res;
 	}
 	
-	friend std::ostream& operator << (std::ostream& out, MyGraphWithStartEnd<DataType>& graph) {
+	friend std::ostream& operator << (std::ostream& out, MyGraphWithStartEnd<NodeDataType, EdgeDataType>& graph) {
 		out << "Graph [ start: " << graph.startId << " | end: " << graph.endId << " ]: " << std::endl;
 		for (auto it = graph.index.begin(); it != graph.index.end(); it++) {
-			Node<DataType>& tempNode = graph.nodes[it->second];
+			Node<NodeDataType, EdgeDataType>& tempNode = graph.nodes[it->second];
 			out << "\t" << tempNode << std::endl;
 			for (auto itt = tempNode.getToEdges().begin(); itt != tempNode.getToEdges().end(); itt++) {
 				out << "\t\t" << *itt << std::endl;
@@ -135,8 +135,8 @@ private:
 	int startId, endId;
 };
 
-template <typename DataType>
-MyGraphWithStartEnd<DataType>::MyGraphWithStartEnd() {
+template <typename NodeDataType, typename EdgeDataType>
+MyGraphWithStartEnd<NodeDataType, EdgeDataType>::MyGraphWithStartEnd() {
 	this->addNode(0);
 	this->addNode(1);
 
@@ -144,8 +144,8 @@ MyGraphWithStartEnd<DataType>::MyGraphWithStartEnd() {
 	this->endId = 1;
 }
 
-template <typename DataType>
-MyGraphWithStartEnd<DataType>::MyGraphWithStartEnd(char singleChar) {
+template <typename NodeDataType, typename EdgeDataType>
+MyGraphWithStartEnd<NodeDataType, EdgeDataType>::MyGraphWithStartEnd(char singleChar) {
 	this->addNode(0);
 	this->addNode(1);
 
@@ -155,9 +155,9 @@ MyGraphWithStartEnd<DataType>::MyGraphWithStartEnd(char singleChar) {
 	this->addEdge(startId, endId, singleChar);
 }
 
-template <typename DataType>
-MyGraphWithStartEnd<DataType>::~MyGraphWithStartEnd() {
+template <typename NodeDataType, typename EdgeDataType>
+MyGraphWithStartEnd<NodeDataType, EdgeDataType>::~MyGraphWithStartEnd() {
 }
 
-typedef MyGraphWithStartEnd<NFANodeData> NFA;
-typedef MyGraphWithStartEnd<DFANodeData> DFA;
+typedef MyGraphWithStartEnd<NFANodeData, char> NFA;
+typedef MyGraphWithStartEnd<DFANodeData, char> DFA;

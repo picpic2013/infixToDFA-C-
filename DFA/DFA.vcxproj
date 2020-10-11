@@ -140,7 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Edge.cpp" />
     <ClCompile Include="NFANodeData.cpp" />
     <ClCompile Include="DFANodeData.cpp" />
     <ClCompile Include="PostfixToNFA.cpp" />

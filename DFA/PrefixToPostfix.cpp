@@ -62,7 +62,7 @@ STATUS PrefixToPostfix::autoAddChar(std::string input, std::vector<char>& output
 		char lastOutputChar = output[output.size() - 1];
 		char currentChar = input[i];
 		// 字母之间 & 星号后面 & 反括号后面 自动补充连接符
-		if ((!isSpecialSign(currentChar) && !isSpecialSign(lastOutputChar)) ||
+		if (((!isSpecialSign(currentChar) || currentChar == '(') && !isSpecialSign(lastOutputChar)) ||
 			((lastOutputChar == '*' || lastOutputChar == ')') && 
 			(currentChar == '(' || !isSpecialSign(currentChar)))) {
 			output.push_back('.');
