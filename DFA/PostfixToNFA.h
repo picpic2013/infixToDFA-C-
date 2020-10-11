@@ -1,5 +1,5 @@
 #pragma once
-#include "MyGraphWithStartEnd.h"
+#include "NFA.h"
 #include <vector>
 
 class PostfixToNFA {

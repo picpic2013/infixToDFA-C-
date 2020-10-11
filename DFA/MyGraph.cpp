@@ -6,11 +6,25 @@ MyGraph<NodeDataType, EdgeDataType>::MyGraph() {
 }
 
 template <typename NodeDataType, typename EdgeDataType>
+MyGraph<NodeDataType, EdgeDataType>::MyGraph(const MyGraph<NodeDataType, EdgeDataType>& graph) {
+	if (graph.availableSpace.empty()) {
+		this->index = graph.index;
+		this->nodes = graph.nodes;
+	}
+	else {
+		for (auto it = graph.index.begin(); it != graph.index.end(); it++) {
+			this->nodes.push_back(graph.nodes[it->second]);
+			this->index.insert(std::pair<int, int>(it->first, this->nodes.size() - 1));
+		}
+	}
+}
+
+template <typename NodeDataType, typename EdgeDataType>
 MyGraph<NodeDataType, EdgeDataType>::~MyGraph() {
 }
 
 template <typename NodeDataType, typename EdgeDataType>
-int MyGraph<NodeDataType, EdgeDataType>::addNode(int nodeId, NodeDataType data, bool autoCover) {
+int MyGraph<NodeDataType, EdgeDataType>::addNode(int nodeId, const NodeDataType& data, bool autoCover) {
 	if (nodeId < 0 && !autoCover) {
 		nodeId = 0;
 	}

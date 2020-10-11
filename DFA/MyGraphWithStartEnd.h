@@ -1,14 +1,12 @@
 #pragma once
 #include "MyGraph.h"
-#include "NFANodeData.h"
-#include "DFANodeData.h"
-#include <xkeycheck.h>
 
 template <typename NodeDataType, typename EdgeDataType>
 class MyGraphWithStartEnd : public MyGraph<NodeDataType, EdgeDataType> {
 public:
-	MyGraphWithStartEnd();
+	MyGraphWithStartEnd(bool = true);
 	MyGraphWithStartEnd(char);
+	MyGraphWithStartEnd(const MyGraphWithStartEnd<NodeDataType, EdgeDataType>&);
 	~MyGraphWithStartEnd();
 
 	int getStartId() const {
@@ -27,7 +25,7 @@ public:
 		return nodeId == this->endId;
 	}
 	
-	friend MyGraphWithStartEnd<NodeDataType, EdgeDataType> operator + (MyGraphWithStartEnd<NodeDataType, EdgeDataType> a, MyGraphWithStartEnd<NodeDataType, EdgeDataType> b) {
+	friend MyGraphWithStartEnd<NodeDataType, EdgeDataType> operator + (MyGraphWithStartEnd<NodeDataType, EdgeDataType> &a, MyGraphWithStartEnd<NodeDataType, EdgeDataType> &b) {
 		MyGraphWithStartEnd<NodeDataType, EdgeDataType> res;
 		std::map<int, int> a2new, b2new;
 		for (auto it = a.nodes.begin(); it != a.nodes.end(); it++) {
@@ -60,7 +58,7 @@ public:
 		return res;
 	}
 
-	friend MyGraphWithStartEnd<NodeDataType, EdgeDataType> operator | (MyGraphWithStartEnd<NodeDataType, EdgeDataType> a, MyGraphWithStartEnd<NodeDataType, EdgeDataType> b) {
+	friend MyGraphWithStartEnd<NodeDataType, EdgeDataType> operator | (MyGraphWithStartEnd<NodeDataType, EdgeDataType> &a, MyGraphWithStartEnd<NodeDataType, EdgeDataType> &b) {
 		MyGraphWithStartEnd<NodeDataType, EdgeDataType> res;
 		std::map<int, int> a2new, b2new;
 		for (auto it = a.nodes.begin(); it != a.nodes.end(); it++) {
@@ -131,17 +129,29 @@ public:
 		return out;
 	}
 
-private:
+protected:
 	int startId, endId;
 };
 
 template <typename NodeDataType, typename EdgeDataType>
-MyGraphWithStartEnd<NodeDataType, EdgeDataType>::MyGraphWithStartEnd() {
-	this->addNode(0);
-	this->addNode(1);
+MyGraphWithStartEnd<NodeDataType, EdgeDataType>::MyGraphWithStartEnd(bool autoAddNodes) {
+	if (autoAddNodes) {
+		this->addNode(0);
+		this->addNode(1);
 
-	this->startId = 0;
-	this->endId = 1;
+		this->startId = 0;
+		this->endId = 1;
+	}
+	else {
+		this->startId = this->endId = -1;
+	}
+}
+
+template <typename NodeDataType, typename EdgeDataType>
+MyGraphWithStartEnd<NodeDataType, EdgeDataType>::MyGraphWithStartEnd(const MyGraphWithStartEnd<NodeDataType, EdgeDataType>& graph)
+: MyGraph<NodeDataType, EdgeDataType>::MyGraph(graph) {
+	this->startId = graph.startId;
+	this->endId = graph.endId;
 }
 
 template <typename NodeDataType, typename EdgeDataType>
@@ -158,6 +168,3 @@ MyGraphWithStartEnd<NodeDataType, EdgeDataType>::MyGraphWithStartEnd(char single
 template <typename NodeDataType, typename EdgeDataType>
 MyGraphWithStartEnd<NodeDataType, EdgeDataType>::~MyGraphWithStartEnd() {
 }
-
-typedef MyGraphWithStartEnd<NFANodeData, char> NFA;
-typedef MyGraphWithStartEnd<DFANodeData, char> DFA;

@@ -1,10 +1,23 @@
 #include "DFANodeData.h"
 
 DFANodeData::DFANodeData() {
+	this->isTermin = false;
 }
 
 DFANodeData::DFANodeData(std::set<char> statusSubset) {
 	this->statusSubset = statusSubset;
+}
+
+DFANodeData::DFANodeData(const DFANodeData& data) {
+	this->statusSubset = data.statusSubset;
+}
+
+bool DFANodeData::getTerminal() {
+	return this->isTermin;
+}
+STATUS DFANodeData::setTerminal(bool input) {
+	this->isTermin = input;
+	return STATUS::OK;
 }
 
 std::ostream& operator << (std::ostream& out, DFANodeData& data) {

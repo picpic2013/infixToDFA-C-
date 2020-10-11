@@ -30,7 +30,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -88,6 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,22 +140,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DFA.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NFA.cpp" />
     <ClCompile Include="NFANodeData.cpp" />
     <ClCompile Include="DFANodeData.cpp" />
     <ClCompile Include="PostfixToNFA.cpp" />
     <ClCompile Include="PrefixToPostfix.cpp" />
+    <ClCompile Include="Thompson.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DFA.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="MyGraph.h" />
     <ClInclude Include="MyGraphWithStartEnd.h" />
+    <ClInclude Include="NFA.h" />
     <ClInclude Include="NFANodeData.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="DFANodeData.h" />
     <ClInclude Include="PostfixToNFA.h" />
     <ClInclude Include="PrefixToPostfix.h" />
     <ClInclude Include="Status.h" />
+    <ClInclude Include="Thompson.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MyGraph.cpp" />

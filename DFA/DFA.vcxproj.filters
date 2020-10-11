@@ -30,6 +30,15 @@
     <ClCompile Include="DFANodeData.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Thompson.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="NFA.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DFA.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrefixToPostfix.h">
@@ -57,6 +66,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DFANodeData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Thompson.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="NFA.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DFA.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

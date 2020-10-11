@@ -4,7 +4,8 @@
 template<typename DataType>
 class Edge {
 public:
-	Edge(int, int, DataType&);
+	Edge(int, int, const DataType&);
+	Edge(const Edge<DataType>&);
 	~Edge();
 	int getFromId() const;
 	int getToId() const;
@@ -20,10 +21,17 @@ private:
 };
 
 template<typename DataType>
-Edge<DataType>::Edge(int fromId, int toId, DataType& condition) {
+Edge<DataType>::Edge(int fromId, int toId, const DataType& condition) {
 	this->fromId = fromId;
 	this->toId = toId;
 	this->condition = condition;
+}
+
+template<typename DataType>
+Edge<DataType>::Edge(const Edge<DataType>& edge) {
+	this->fromId = edge.fromId;
+	this->toId = edge.toId;
+	this->condition = edge.condition;
 }
 
 template<typename DataType>

@@ -5,7 +5,8 @@
 template <typename NodeDataType, typename EdgeDataType>
 class Node {
 public:
-	Node(int id, NodeDataType = NodeDataType());
+	Node(int id, const NodeDataType&);
+	Node(const Node<NodeDataType, EdgeDataType>&);
 	~Node();
 	int getId() const;
 	NodeDataType& getData();
@@ -19,6 +20,7 @@ public:
 		out << "Node [ " << node.id << " ]: " << node.data;
 		return out;
 	}
+	STATUS isExistEdge(Edge<EdgeDataType>);
 
 private:
 	int id;

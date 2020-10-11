@@ -10,8 +10,9 @@ template <typename NodeDataType, typename EdgeDataType>
 class MyGraph {
 public:
 	MyGraph();
+	MyGraph(const MyGraph<NodeDataType, EdgeDataType>&);
 	~MyGraph();
-	int addNode(int, NodeDataType = NodeDataType(), bool = false);
+	int addNode(int, const NodeDataType& = NodeDataType(), bool = false);
 	int addNode(Node<NodeDataType, EdgeDataType>&);
 	STATUS addEdge(int, int, char = '\0', bool = false);
 	STATUS delNode(int);
