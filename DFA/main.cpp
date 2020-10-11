@@ -11,42 +11,45 @@
 using namespace std;
 
 int main() {
-    while (true) {
-        string input = "(ab|c)*dde";
-        cin >> input;
+    string input;
+    cin >> input;
 
-        // mid to post
-        vector<char> result;
-        if (PrefixToPostfix::preToPost(input, result) == STATUS::ERROR) continue;
+    // mid to post
+    vector<char> result;
+    if (PrefixToPostfix::preToPost(input, result) == STATUS::ERROR) {
+        cout << "Syntax Error!" << endl;
+        return -1;
+    };
         
-        // data convertion
-        string postfix;
-        postfix.assign(result.begin(), result.end());
-        for (auto it = postfix.begin(); it != postfix.end(); it++) {
-            if (*it == '.') {
-                *it = '+';
-            }
+    // data convertion
+    string postfix;
+    postfix.assign(result.begin(), result.end());
+    for (auto it = postfix.begin(); it != postfix.end(); it++) {
+        if (*it == '.') {
+            *it = '+';
         }
+    }
 
-        cell NFA_Cell, DFA_Cell;
+    cout << "后缀表达式: " << postfix << endl;
 
-        //表达式转NFA
-        NFA_Cell = express_2_NFA(postfix);
+    cell NFA_Cell, DFA_Cell;
 
-        //显示
-        // Display_NFA(NFA_Cell);
-        NFA tempNFA = NFA(NFA_Cell);
-        cout << "NFA: " << endl << tempNFA << endl;
+    //表达式转NFA
+    NFA_Cell = express_2_NFA(postfix);
+
+    //显示
+    Display_NFA(NFA_Cell);
+    NFA tempNFA = NFA(NFA_Cell);
+    cout << "NFA: " << endl << tempNFA << endl;
 
 
-        DFA_Cell = express_2_DFA(NFA_Cell);
-        // Display_DFA(DFA_Cell);
-        DFA tempDFA = DFA(DFA_Cell);
-        cout << "DFA: " << endl << tempDFA << endl;
+    DFA_Cell = express_2_DFA(NFA_Cell);
+    Display_DFA(DFA_Cell);
+    DFA tempDFA = DFA(DFA_Cell);
+    cout << "DFA: " << endl << tempDFA << endl;
         
 
-        tempDFA.DFAMinimise();
-        cout << "min-DFA: " << endl << tempDFA << endl;
-    }
+    tempDFA.DFAMinimise();
+    cout << "min-DFA: " << endl << tempDFA << endl;
     return 0;
 }
